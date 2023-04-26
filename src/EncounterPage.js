@@ -11,13 +11,21 @@ const EncounterPage = ({ wildPokemon, myPokemons, setIsBattle }) => {
                 <PokemonCard pokemon={activePokemon} />
                 <PokemonCard pokemon={wildPokemon} />
             </div>
+            <div className="btn-container">
+                {wildPokemon.hp <= 0 ? (
+                    <button className="action">CATCH</button>
+                ) : (
+                    <></>
+                )}
+                <button className="action" onClick={(e) => setIsBattle(false)}>
+                    FLEE
+                </button>
+            </div>
+
             <Storage
                 myPokemons={myPokemons}
                 setActivePokemon={setActivePokemon}
             />
-            <button className="action" onClick={(e) => setIsBattle(false)}>
-                FLEE
-            </button>
         </div>
     );
 };
