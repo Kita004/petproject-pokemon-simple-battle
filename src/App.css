@@ -1,38 +1,332 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+table {
+    margin: 0.5rem 0 3rem 0;
+    text-align: left;
+    width: 50%;
+    border-collapse: collapse;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+tr {
+    border-bottom: 2px solid white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+tr:last-child {
+    border-bottom: none;
 }
 
-.App-link {
-  color: #61dafb;
+button {
+    cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+img {
+    image-rendering: pixelated;
+}
+
+.pokemon-card {
+    margin: 1rem;
+    width: 100%;
+    border-radius: 100%;
+    background-color: whitesmoke;
+    box-shadow: 3px 3px 10px black;
+}
+
+.pokemon-card h1 {
+    text-transform: capitalize;
+    margin: 2rem;
+    color: black;
+}
+
+.pokemon-card table {
+    color: white;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container button {
+    border: none;
+}
+
+.encounter {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    text-align: -webkit-center;
+}
+
+.city,
+.action {
+    margin: 10px;
+    padding: 1.2rem;
+    font-size: xx-large;
+    background-color: red;
+    background: linear-gradient(
+        to top,
+        #121212 0%,
+        #121212 45%,
+        red 55%,
+        red 100%
+    );
+    border-radius: 20%;
+    box-shadow: 3px 3px 10px black;
+    opacity: 0.85;
+    color: whitesmoke;
+    text-transform: capitalize;
+}
+
+.storage {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: whitesmoke;
+    padding: 0.5rem;
+    border-radius: 25px;
+    box-shadow: 3px 3px 10px black;
+}
+
+.storage img {
+    border-radius: 50%;
+    background-color: #aaa;
+}
+
+.storage img.active {
+    opacity: 0.6;
+}
+
+.storage img.defeated {
+    opacity: 0.6;
+    background-color: lightsalmon;
+}
+
+/* color of types */
+.bg-normal {
+    background-color: #a8a77a;
+    background: linear-gradient(
+        to top,
+        #a8a77a 0%,
+        #a8a77a 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-fire {
+    background-color: #ee8130;
+    background: linear-gradient(
+        to top,
+        #ee8130 0%,
+        #ee8130 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-water {
+    background: linear-gradient(
+        to top,
+        #6390f0 0%,
+        #6390f0 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-electric {
+    background-color: #f7d02c;
+    background: linear-gradient(
+        to top,
+        #f7d02c 0%,
+        #f7d02c 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-grass {
+    background-color: #7ac74c;
+    background: linear-gradient(
+        to top,
+        #7ac74c 0%,
+        #7ac74c 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-ice {
+    background-color: #96d9d6;
+    background: linear-gradient(
+        to top,
+        #96d9d6 0%,
+        #96d9d6 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-fighting {
+    background-color: #c22e28;
+    background: linear-gradient(
+        to top,
+        #c22e28 0%,
+        #c22e28 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-poison {
+    background-color: #a33ea1;
+    background: linear-gradient(
+        to top,
+        #a33ea1 0%,
+        #a33ea1 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-ground {
+    background-color: #e2bf65;
+    background: linear-gradient(
+        to top,
+        #e2bf65 0%,
+        #e2bf65 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-flying {
+    background-color: #a98ff3;
+    background: linear-gradient(
+        to top,
+        #a98ff3 0%,
+        #a98ff3 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-psychic {
+    background-color: #f95587;
+    background: linear-gradient(
+        to top,
+        #f95587 0%,
+        #f95587 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-bug {
+    background-color: #a6b91a;
+    background: linear-gradient(
+        to top,
+        #a6b91a 0%,
+        #a6b91a 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-rock {
+    background-color: #b6a136;
+    background: linear-gradient(
+        to top,
+        #b6a136 0%,
+        #b6a136 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-ghost,
+.bg-shadow {
+    background-color: #735797;
+    background: linear-gradient(
+        to top,
+        #735797 0%,
+        #735797 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-dragon {
+    background-color: #6f35fc;
+    background: linear-gradient(
+        to top,
+        #6f35fc 0%,
+        #6f35fc 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-dark {
+    background-color: #705746;
+    background: linear-gradient(
+        to top,
+        #705746 0%,
+        #705746 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-steel {
+    background-color: #b7b7ce;
+    background: linear-gradient(
+        to top,
+        #b7b7ce 0%,
+        #b7b7ce 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-fairy {
+    background-color: #d685ad;
+    background: linear-gradient(
+        to top,
+        #d685ad 0%,
+        #d685ad 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
+}
+
+.bg-unknown {
+    background: linear-gradient(
+        to top,
+        #aaa 0%,
+        #aaa 50%,
+        whitesmoke 50%,
+        whitesmoke 100%
+    );
+    color: #fff;
 }
