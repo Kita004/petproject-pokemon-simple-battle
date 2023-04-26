@@ -36,11 +36,13 @@ function App() {
 
             let arr = [];
             for (let num of myPokemonNums) {
-                const myPoke = await (
+                const res = await (
                     await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
                 ).json();
 
-                // console.log("myPOKE: ", myPoke);
+                const myPoke = buildSimplifiedPokemon(res);
+
+                console.log("myPOKE: ", myPoke);
 
                 arr.push(myPoke);
                 setMyPokemons(arr);
@@ -68,24 +70,28 @@ function App() {
 
             // fetch Detail of Random Pokemon
             const res = await (await fetch(randomPokemonURL)).json();
-            const wildEncounter = {
-                name: res.name,
-                img: res.sprites.front_default,
-                type: res.types[0].type.name,
-                hp: res.stats[0].base_stat,
-                ...(res.stats[1].base_stat > res.stats[3].base_stat
-                    ? { ap: res.stats[1].base_stat }
-                    : { ap: res.stats[3].base_stat }),
-                ...(res.stats[2].base_stat > res.stats[4].base_stat
-                    ? { dp: res.stats[2].base_stat }
-                    : { dp: res.stats[4].base_stat }),
-            };
+            const wildEncounter = buildSimplifiedPokemon(res);
 
             setWildPokemon(wildEncounter);
             // console.log("Wild Encounter", wildEncounter);
         };
         fetchRandomPokemon();
     }, [area]);
+
+    const buildSimplifiedPokemon = (pokemon) => {
+        return {
+            name: pokemon.name,
+            img: pokemon.sprites.front_default,
+            type: pokemon.types[0].type.name,
+            hp: pokemon.stats[0].base_stat,
+            ...(pokemon.stats[1].base_stat > pokemon.stats[3].base_stat
+                ? { ap: pokemon.stats[1].base_stat }
+                : { ap: pokemon.stats[3].base_stat }),
+            ...(pokemon.stats[2].base_stat > pokemon.stats[4].base_stat
+                ? { dp: pokemon.stats[2].base_stat }
+                : { dp: pokemon.stats[4].base_stat }),
+        };
+    };
 
     return (
         <div className="App bg">
