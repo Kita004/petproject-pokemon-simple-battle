@@ -67,7 +67,20 @@ function App() {
             // console.log("Random URL", randomPokemonURL);
 
             // fetch Detail of Random Pokemon
-            const wildEncounter = await (await fetch(randomPokemonURL)).json();
+            const res = await (await fetch(randomPokemonURL)).json();
+            const wildEncounter = {
+                name: res.name,
+                img: res.sprites.front_default,
+                type: res.types[0].type.name,
+                hp: res.stats[0].base_stat,
+                ...(res.stats[1].base_stat > res.stats[3].base_stat
+                    ? { ap: res.stats[1].base_stat }
+                    : { ap: res.stats[3].base_stat }),
+                ...(res.stats[2].base_stat > res.stats[4].base_stat
+                    ? { dp: res.stats[2].base_stat }
+                    : { dp: res.stats[4].base_stat }),
+            };
+
             setWildPokemon(wildEncounter);
             // console.log("Wild Encounter", wildEncounter);
         };

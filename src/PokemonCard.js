@@ -8,23 +8,27 @@ const PokemonCard = ({ pokemon }) => {
         img: "https://archives.bulbagarden.net/media/upload/d/dc/Spr_3r_Egg.png",
     };
 
-    const type = pokemon ? pokemon.types[0].type.name : "unknown";
+    const type = pokemon ? pokemon.type : "unknown";
     return (
         <>
             {pokemon ? (
                 <div className={"pokemon-card bg-" + type}>
                     <h1>{pokemon.name}</h1>
-                    <img src={pokemon.sprites.front_default} alt="..." />
+                    <img src={pokemon.img} alt="..." />
                     <table>
                         <tbody>
-                            {pokemon.stats.map((stat) => {
-                                return (
-                                    <tr>
-                                        <td>{stat.stat.name}</td>
-                                        <td>{stat.base_stat} </td>
-                                    </tr>
-                                );
-                            })}
+                            <tr>
+                                <td>HP</td>
+                                <td>{pokemon.hp}</td>
+                            </tr>
+                            <tr>
+                                <td>AP</td>
+                                <td>{pokemon.ap}</td>
+                            </tr>
+                            <tr>
+                                <td>DP</td>
+                                <td>{pokemon.dp}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -32,18 +36,6 @@ const PokemonCard = ({ pokemon }) => {
                 <div className={"pokemon-card bg-" + type}>
                     <h1>{unknown.name}</h1>
                     <img src={unknown.img} alt="..." />
-                    <table>
-                        <tbody>
-                            {unknown.stats.map((stat) => {
-                                return (
-                                    <tr>
-                                        <td>{stat.stat.name}</td>
-                                        <td>{stat.base_stat} </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
                 </div>
             )}
         </>
