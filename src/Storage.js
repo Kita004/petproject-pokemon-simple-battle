@@ -16,10 +16,7 @@ const Storage = ({ myPokemons, setActivePokemon }) => {
                                 onClick={(e) => handleSelect(e)}
                                 value={myPokemons.indexOf(poke)}
                             >
-                                <img
-                                    src={poke.sprites.front_default}
-                                    alt="..."
-                                />
+                                <img src={poke.img} alt="..." />
                             </button>
                         );
                     })}
