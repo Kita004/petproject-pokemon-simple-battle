@@ -1,9 +1,11 @@
 import React from "react";
 
-const Storage = ({ myPokemons, setActivePokemon }) => {
+const Storage = ({ myPokemons, setActivePokemon, setCount, handleBattle }) => {
     const handleSelect = (e) => {
         const index = e.currentTarget.value;
         setActivePokemon(myPokemons[index]);
+        setCount((prev) => prev + 1);
+        // handleBattle();
     };
 
     return (

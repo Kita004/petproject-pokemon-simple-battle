@@ -1,13 +1,13 @@
 import React from "react";
 import { getRandom } from "./utils";
 
-const LocationPage = ({ locations, setArea, setIsBattle }) => {
+const LocationPage = ({ locations, setArea, setIsEncounter }) => {
     const handleClick = async (e) => {
         const url = e.currentTarget.value;
         const res = await (await fetch(url)).json();
         const randomArea = res.areas[getRandom(res.areas.length)].url;
         setArea(randomArea);
-        setIsBattle(true);
+        setIsEncounter(true);
     };
 
     return (

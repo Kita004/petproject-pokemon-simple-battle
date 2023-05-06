@@ -29,6 +29,10 @@ const PokemonCard = ({ pokemon }) => {
                                 <td>DP</td>
                                 <td>{pokemon.dp}</td>
                             </tr>
+                            <tr>
+                                <td>SP</td>
+                                <td>{pokemon.sp}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
