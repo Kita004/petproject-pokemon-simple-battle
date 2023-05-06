@@ -126,7 +126,9 @@ function App() {
                     });
                     console.log("Active HP: ", activePokemon.hp);
                 }
-                setCount((prev) => prev + 1);
+                setTimeout(() => {
+                    setCount((prev) => prev + 1);
+                }, 500);
 
                 // Switch attacker
                 setAttacker(
@@ -156,6 +158,7 @@ function App() {
                     wildPokemon={wildPokemon}
                     activePokemon={activePokemon}
                     setActivePokemon={setActivePokemon}
+                    setWildPokemon={setWildPokemon}
                     storage={
                         <Storage
                             myPokemons={myPokemons}
