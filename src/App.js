@@ -119,6 +119,15 @@ function App() {
         // map through pokes, change isDefeated
     };
 
+    const handleHpReduction = (attacker, defender, setDefenderHP) => {
+        const dmg = Math.floor((attacker.ap / defender.dp) * 10);
+
+        setDefenderHP({
+            ...defender,
+            hp: defender.hp - dmg,
+        });
+    };
+
     // needs a new state to check rounds not ActivePokmemon? only run useEffect when needed
     const handleBattle = () => {
         // check if we chose a fighter
@@ -133,21 +142,20 @@ function App() {
             // fight logic
             if (activePokemon.hp > 0 && wildPokemon.hp > 0) {
                 if (attacker == "activePokemon") {
-                    setWildPokemon({
-                        ...wildPokemon,
-                        hp: wildPokemon.hp - 10,
-                    });
+                    handleHpReduction(
+                        activePokemon,
+                        wildPokemon,
+                        setWildPokemon
+                    );
                     console.info("Wild HP: ", wildPokemon.hp);
                 } else {
-                    setActivePokemon({
-                        ...activePokemon,
-                        hp: activePokemon.hp - 10,
-                    });
+                    handleHpReduction(
+                        wildPokemon,
+                        activePokemon,
+                        setActivePokemon
+                    );
                     console.info("Active HP: ", activePokemon.hp);
                 }
-                setTimeout(() => {
-                    setCount((prev) => prev + 1);
-                }, 500);
 
                 // Switch attacker
                 setAttacker(
@@ -155,6 +163,11 @@ function App() {
                         ? "wildPokemon"
                         : "activePokemon"
                 );
+
+                // delay between rounds
+                setTimeout(() => {
+                    setCount((prev) => prev + 1);
+                }, 500);
             }
 
             // if activePokemon lost >> isDefeated = true, dont let it be picked again? + CSS
