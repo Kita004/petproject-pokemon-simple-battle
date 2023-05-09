@@ -20,59 +20,12 @@ function App() {
 
     useEffect(() => {
         // fetch locations
-        const fetchLocations = async () => {
-            const locations = await (
-                await fetch(
-                    " https://pokeapi.co/api/v2/location?offset=17&limit=9"
-                )
-            ).json();
-            setLocations(locations.results);
-        };
-
-        // fetch my starter pokemons
-        const fetchMyPokemons = async () => {
-            // set myPokemons to empty array so that it wont be populated twice (?)
-            setMyPokemons([]);
-
-            const myPokemonNums = await (
-                await fetch("http://localhost:3500/storage")
-            ).json();
-
-            let arr = [];
-            for (let num of myPokemonNums) {
-                const res = await (
-                    await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
-                ).json();
-
-                const myPoke = buildSimplifiedPokemon(res);
-
-                arr.push(myPoke);
-                setMyPokemons(arr);
-            }
-        };
-
         fetchLocations();
+        // fetch my starter pokemons
         fetchMyPokemons();
     }, []);
 
     useEffect(() => {
-        const fetchRandomPokemon = async () => {
-            // fetch details of chosen Area
-            const chosenArea = await (await fetch(area)).json();
-
-            // get Wild Pokemons from Chosen Area
-            const wildPokemons = chosenArea.pokemon_encounters;
-
-            // get URL from Random Pokemon
-            const randomPokemonURL =
-                wildPokemons[getRandom(wildPokemons.length)].pokemon.url;
-
-            // fetch Detail of Random Pokemon
-            const res = await (await fetch(randomPokemonURL)).json();
-            const wildEncounter = buildSimplifiedPokemon(res);
-
-            setWildPokemon(wildEncounter);
-        };
         fetchRandomPokemon();
     }, [area]);
 
@@ -80,9 +33,58 @@ function App() {
         handleBattle();
     }, [count]);
 
-    const buildSimplifiedPokemon = (pokemon) => {
+    const fetchLocations = async () => {
+        const locations = await (
+            await fetch(" https://pokeapi.co/api/v2/location?offset=17&limit=9")
+        ).json();
+        setLocations(locations.results);
+    };
+
+    const fetchMyPokemons = async () => {
+        // set myPokemons to empty array so that it wont be populated twice
+        setMyPokemons([]);
+
+        const myPokemonNums = await (
+            await fetch("http://localhost:3500/storage")
+        ).json();
+
+        let arr = [];
+        let id = 0;
+        for (let num of myPokemonNums) {
+            const res = await (
+                await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
+            ).json();
+
+            const myPoke = buildSimplifiedPokemon(res, id);
+
+            arr.push(myPoke);
+
+            id++;
+        }
+        setMyPokemons(arr);
+    };
+
+    const fetchRandomPokemon = async () => {
+        // fetch details of chosen Area
+        const chosenArea = await (await fetch(area)).json();
+
+        // get Wild Pokemons from Chosen Area
+        const wildPokemons = chosenArea.pokemon_encounters;
+
+        // get URL from Random Pokemon
+        const randomPokemonURL =
+            wildPokemons[getRandom(wildPokemons.length)].pokemon.url;
+
+        // fetch Detail of Random Pokemon
+        const res = await (await fetch(randomPokemonURL)).json();
+        const wildEncounter = buildSimplifiedPokemon(res);
+
+        setWildPokemon(wildEncounter);
+    };
+
+    const buildSimplifiedPokemon = (pokemon, id) => {
         return {
-            id: pokemon.id,
+            ...(id != null ? { id: id } : { id: pokemon.id }),
             name: pokemon.name,
             img: pokemon.sprites.front_default,
             type: pokemon.types[0].type.name,
@@ -100,9 +102,10 @@ function App() {
         };
     };
 
+    // map through pokes, change isDefeated
     const setIsDefeated = (id = null) => {
         let updatedArr;
-        if (id) {
+        if (id != null) {
             updatedArr = myPokemons.map((poke) => {
                 if (poke.id == id) {
                     return { ...poke, isDefeated: true };
@@ -116,7 +119,6 @@ function App() {
             });
         }
         setMyPokemons(updatedArr);
-        // map through pokes, change isDefeated
     };
 
     const handleHpReduction = (attacker, defender, setDefenderHP) => {
@@ -128,7 +130,6 @@ function App() {
         });
     };
 
-    // needs a new state to check rounds not ActivePokmemon? only run useEffect when needed
     const handleBattle = () => {
         // check if we chose a fighter
         if (activePokemon) {
@@ -142,6 +143,7 @@ function App() {
             // fight logic
             if (activePokemon.hp > 0 && wildPokemon.hp > 0) {
                 if (attacker == "activePokemon") {
+                    // your pokemon attacks
                     handleHpReduction(
                         activePokemon,
                         wildPokemon,
@@ -149,6 +151,7 @@ function App() {
                     );
                     console.info("Wild HP: ", wildPokemon.hp);
                 } else {
+                    // wild pokemon attacks
                     handleHpReduction(
                         wildPokemon,
                         activePokemon,
@@ -170,7 +173,7 @@ function App() {
                 }, 500);
             }
 
-            // if activePokemon lost >> isDefeated = true, dont let it be picked again? + CSS
+            // if activePokemon lost >> isDefeated = true, button is disabled + CSS
             if (activePokemon.hp <= 0) {
                 setIsDefeated(activePokemon.id);
             }

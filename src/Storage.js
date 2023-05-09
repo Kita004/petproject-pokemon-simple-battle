@@ -15,7 +15,7 @@ const Storage = ({ myPokemons, setActivePokemon, setCount }) => {
                         return (
                             <button
                                 onClick={(e) => handleSelect(e)}
-                                value={myPokemons.indexOf(poke)}
+                                value={poke.id}
                                 disabled={poke.isDefeated}
                             >
                                 <img

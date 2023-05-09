@@ -2,10 +2,10 @@ import React from "react";
 
 const PokemonCard = ({ pokemon }) => {
     const unknown = {
-        name: "unknown",
+        name: "???",
         types: [{ type: { name: "unknown" } }],
         stats: [],
-        img: "https://archives.bulbagarden.net/media/upload/d/dc/Spr_3r_Egg.png",
+        img: "http://localhost:3000/Spr_3r_Egg.png",
     };
 
     const type = pokemon ? pokemon.type : "unknown";
