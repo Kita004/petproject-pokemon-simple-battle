@@ -8,16 +8,9 @@ const EncounterPage = ({
     setActivePokemon,
     setWildPokemon,
     setIsDefeated,
+    handleCatch,
+    resetStates,
 }) => {
-    const resetStates = () => {
-        setIsEncounter(false);
-
-        setActivePokemon(null);
-        setIsDefeated();
-
-        setWildPokemon(null);
-    };
-
     return (
         <div className="container">
             <div className="encounter">
@@ -26,7 +19,16 @@ const EncounterPage = ({
             </div>
             <div className="btn-container">
                 {wildPokemon?.hp <= 0 ? (
-                    <button className="action">CATCH</button>
+                    <button
+                        className="action"
+                        value={wildPokemon.id}
+                        onClick={(e) => {
+                            handleCatch(e.currentTarget.value);
+                            e.currentTarget.disabled = true;
+                        }}
+                    >
+                        CATCH
+                    </button>
                 ) : (
                     <></>
                 )}

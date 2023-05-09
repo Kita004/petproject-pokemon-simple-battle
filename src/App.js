@@ -182,6 +182,31 @@ function App() {
         }
     };
 
+    const handleCatch = async (id) => {
+        // fetch new pokemon data
+        const res = await (
+            await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        ).json();
+
+        // build simplified version and add it to team
+        const newPokemon = buildSimplifiedPokemon(res, myPokemons.length);
+        setMyPokemons((prev) => [...prev, newPokemon]);
+
+        // reset states, go back to LocationPage
+        setTimeout(() => {
+            resetStates();
+        }, 1000);
+    };
+
+    const resetStates = () => {
+        setIsEncounter(false);
+
+        setActivePokemon(null);
+        setIsDefeated();
+
+        setWildPokemon(null);
+    };
+
     return (
         <div className="App bg">
             {!isEncounter ? (
@@ -198,6 +223,8 @@ function App() {
                     setActivePokemon={setActivePokemon}
                     setWildPokemon={setWildPokemon}
                     setIsDefeated={setIsDefeated}
+                    handleCatch={handleCatch}
+                    resetStates={resetStates}
                     storage={
                         <Storage
                             myPokemons={myPokemons}
