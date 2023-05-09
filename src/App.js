@@ -82,6 +82,7 @@ function App() {
 
     const buildSimplifiedPokemon = (pokemon) => {
         return {
+            id: pokemon.id,
             name: pokemon.name,
             img: pokemon.sprites.front_default,
             type: pokemon.types[0].type.name,
@@ -95,7 +96,27 @@ function App() {
                 ? { dp: pokemon.stats[2].base_stat }
                 : { dp: pokemon.stats[4].base_stat }),
             sp: pokemon.stats[5].base_stat,
+            isDefeated: false,
         };
+    };
+
+    const setIsDefeated = (id = null) => {
+        let updatedArr;
+        if (id) {
+            updatedArr = myPokemons.map((poke) => {
+                if (poke.id == id) {
+                    return { ...poke, isDefeated: true };
+                }
+                return poke;
+            });
+            // if there is no ID, reset all isDefeated
+        } else {
+            updatedArr = myPokemons.map((poke) => {
+                return { ...poke, isDefeated: false };
+            });
+        }
+        setMyPokemons(updatedArr);
+        // map through pokes, change isDefeated
     };
 
     // needs a new state to check rounds not ActivePokmemon? only run useEffect when needed
@@ -109,8 +130,6 @@ function App() {
                     : "wildPokemon"
             );
 
-            console.log("SET attacker: ", attacker);
-
             // fight logic
             if (activePokemon.hp > 0 && wildPokemon.hp > 0) {
                 if (attacker == "activePokemon") {
@@ -118,13 +137,13 @@ function App() {
                         ...wildPokemon,
                         hp: wildPokemon.hp - 10,
                     });
-                    console.log("Wild HP: ", wildPokemon.hp);
+                    console.info("Wild HP: ", wildPokemon.hp);
                 } else {
                     setActivePokemon({
                         ...activePokemon,
                         hp: activePokemon.hp - 10,
                     });
-                    console.log("Active HP: ", activePokemon.hp);
+                    console.info("Active HP: ", activePokemon.hp);
                 }
                 setTimeout(() => {
                     setCount((prev) => prev + 1);
@@ -136,8 +155,11 @@ function App() {
                         ? "wildPokemon"
                         : "activePokemon"
                 );
-            } else {
-                console.log("Stop fight logic!!");
+            }
+
+            // if activePokemon lost >> isDefeated = true, dont let it be picked again? + CSS
+            if (activePokemon.hp <= 0) {
+                setIsDefeated(activePokemon.id);
             }
         } else {
             console.info("First mount, when Active pokemon is NULL");
@@ -159,6 +181,7 @@ function App() {
                     activePokemon={activePokemon}
                     setActivePokemon={setActivePokemon}
                     setWildPokemon={setWildPokemon}
+                    setIsDefeated={setIsDefeated}
                     storage={
                         <Storage
                             myPokemons={myPokemons}

@@ -7,10 +7,14 @@ const EncounterPage = ({
     setIsEncounter,
     setActivePokemon,
     setWildPokemon,
+    setIsDefeated,
 }) => {
     const resetStates = () => {
         setIsEncounter(false);
+
         setActivePokemon(null);
+        setIsDefeated();
+
         setWildPokemon(null);
     };
 

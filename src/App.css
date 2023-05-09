@@ -103,10 +103,6 @@ img {
     background-color: #aaa;
 }
 
-.storage img.active {
-    opacity: 0.6;
-}
-
 .storage img.defeated {
     opacity: 0.6;
     background-color: lightsalmon;

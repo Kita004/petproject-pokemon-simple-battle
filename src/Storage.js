@@ -1,11 +1,10 @@
 import React from "react";
 
-const Storage = ({ myPokemons, setActivePokemon, setCount, handleBattle }) => {
+const Storage = ({ myPokemons, setActivePokemon, setCount }) => {
     const handleSelect = (e) => {
         const index = e.currentTarget.value;
         setActivePokemon(myPokemons[index]);
         setCount((prev) => prev + 1);
-        // handleBattle();
     };
 
     return (
@@ -17,8 +16,15 @@ const Storage = ({ myPokemons, setActivePokemon, setCount, handleBattle }) => {
                             <button
                                 onClick={(e) => handleSelect(e)}
                                 value={myPokemons.indexOf(poke)}
+                                disabled={poke.isDefeated}
                             >
-                                <img src={poke.img} alt="..." />
+                                <img
+                                    className={
+                                        poke.isDefeated ? "defeated" : ""
+                                    }
+                                    src={poke.img}
+                                    alt="..."
+                                />
                             </button>
                         );
                     })}
