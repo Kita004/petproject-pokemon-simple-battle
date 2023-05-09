@@ -23,7 +23,7 @@ function App() {
         fetchLocations();
         // fetch my starter pokemons
         fetchMyPokemons();
-    }, []);
+    }, [isEncounter]);
 
     useEffect(() => {
         fetchRandomPokemon();
@@ -50,9 +50,9 @@ function App() {
 
         let arr = [];
         let id = 0;
-        for (let num of myPokemonNums) {
+        for (let poke of myPokemonNums) {
             const res = await (
-                await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
+                await fetch(`https://pokeapi.co/api/v2/pokemon/${poke.id}`)
             ).json();
 
             const myPoke = buildSimplifiedPokemon(res, id);
@@ -182,7 +182,25 @@ function App() {
         }
     };
 
+    const addPokemonToDB = async (id) => {
+        const postOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id,
+            }),
+        };
+
+        await fetch("http://localhost:3500/storage", postOptions);
+        console.info("New Pokemon has been Added!");
+    };
+
     const handleCatch = async (id) => {
+        addPokemonToDB(id);
+
+        // this should be refactored, it is only here to show result on frontend
         // fetch new pokemon data
         const res = await (
             await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -195,7 +213,7 @@ function App() {
         // reset states, go back to LocationPage
         setTimeout(() => {
             resetStates();
-        }, 1000);
+        }, 1500);
     };
 
     const resetStates = () => {
