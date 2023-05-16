@@ -1,13 +1,12 @@
 import React from "react";
 import { getRandom } from "./utils";
 
-const LocationPage = ({ locations, setArea, setIsEncounter }) => {
-    const handleClick = async (e) => {
-        const url = e.currentTarget.value;
+const LocationPage = ({ locations, onLocationSelected }) => {
+    const handleLocationSelection = async (url) => {
         const res = await (await fetch(url)).json();
         const randomArea = res.areas[getRandom(res.areas.length)].url;
-        setArea(randomArea);
-        setIsEncounter(true);
+
+        onLocationSelected(randomArea);
     };
 
     return (
@@ -18,8 +17,9 @@ const LocationPage = ({ locations, setArea, setIsEncounter }) => {
                         return (
                             <button
                                 className="city"
-                                value={location.url}
-                                onClick={(e) => handleClick(e)}
+                                onClick={() =>
+                                    handleLocationSelection(location.url)
+                                }
                             >
                                 {location.name}
                             </button>
