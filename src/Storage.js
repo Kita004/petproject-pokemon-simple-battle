@@ -1,12 +1,6 @@
 import React from "react";
 
-const Storage = ({ myPokemons, setActivePokemon, setCount }) => {
-    const handleSelect = (e) => {
-        const index = e.currentTarget.value;
-        setActivePokemon(myPokemons[index]);
-        setCount((prev) => prev + 1);
-    };
-
+const Storage = ({ myPokemons, onActivePokemonSelected }) => {
     return (
         <>
             {myPokemons ? (
@@ -14,8 +8,8 @@ const Storage = ({ myPokemons, setActivePokemon, setCount }) => {
                     {myPokemons.map((poke) => {
                         return (
                             <button
-                                onClick={(e) => handleSelect(e)}
-                                value={poke.id}
+                                key={poke.id}
+                                onClick={() => onActivePokemonSelected(poke.id)}
                                 disabled={poke.isDefeated}
                             >
                                 <img
@@ -23,7 +17,7 @@ const Storage = ({ myPokemons, setActivePokemon, setCount }) => {
                                         poke.isDefeated ? "defeated" : ""
                                     }
                                     src={poke.img}
-                                    alt="..."
+                                    alt={poke.name}
                                 />
                             </button>
                         );
