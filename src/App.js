@@ -15,6 +15,7 @@ function App() {
     const [wildPokemon, setWildPokemon] = useState();
     const [myPokemons, setMyPokemons] = useState([]);
     const [activePokemon, setActivePokemon] = useState(null);
+    const [catchLoading, setCatchLoading] = useState(false);
 
     const [attacker, setAttacker] = useState();
 
@@ -77,7 +78,7 @@ function App() {
 
         // fetch Detail of Random Pokemon
         const res = await (await fetch(randomPokemonURL)).json();
-        const wildEncounter = buildSimplifiedPokemon(res);
+        const wildEncounter = await buildSimplifiedPokemon(res);
 
         setWildPokemon(wildEncounter);
     };
@@ -100,6 +101,16 @@ function App() {
             sp: pokemon.stats[5].base_stat,
             isDefeated: false,
         };
+    };
+
+    const onActivePokemonSelected = (index) => {
+        setActivePokemon(myPokemons[index]);
+        setCount((prev) => prev + 1);
+    };
+
+    const onLocationSelected = (randomArea) => {
+        setArea(randomArea);
+        setIsEncounter(true);
     };
 
     // map through pokes, change isDefeated
@@ -199,7 +210,7 @@ function App() {
 
     const handleCatch = async (id) => {
         addPokemonToDB(id);
-
+        setCatchLoading(true);
         // this should be refactored, it is only here to show result on frontend
         // fetch new pokemon data
         const res = await (
@@ -223,6 +234,8 @@ function App() {
         setIsDefeated();
 
         setWildPokemon(null);
+
+        setCatchLoading(false);
     };
 
     return (
@@ -230,24 +243,19 @@ function App() {
             {!isEncounter ? (
                 <LocationPage
                     locations={locations}
-                    setIsEncounter={setIsEncounter}
-                    setArea={setArea}
+                    onLocationSelected={onLocationSelected}
                 />
             ) : (
                 <EncounterPage
-                    setIsEncounter={setIsEncounter}
                     wildPokemon={wildPokemon}
                     activePokemon={activePokemon}
-                    setActivePokemon={setActivePokemon}
-                    setWildPokemon={setWildPokemon}
-                    setIsDefeated={setIsDefeated}
                     handleCatch={handleCatch}
                     resetStates={resetStates}
+                    catchLoading={catchLoading}
                     storage={
                         <Storage
                             myPokemons={myPokemons}
-                            setActivePokemon={setActivePokemon}
-                            setCount={setCount}
+                            onActivePokemonSelected={onActivePokemonSelected}
                             handleBattle={handleBattle}
                         />
                     }
