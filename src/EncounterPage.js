@@ -12,7 +12,6 @@ const EncounterPage = ({
     return (
         <div className="container">
             <div className="encounter">
-                {/* ide default Cardot rendereljen, ha nincs pokemon c activepokemon */}
                 {!activePokemon && !wildPokemon ? (
                     <>
                         <DefaultPokemonCard />
