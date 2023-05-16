@@ -1,30 +1,42 @@
 import PokemonCard from "./PokemonCard";
+import DefaultPokemonCard from "./DefaultPokemonCard";
 
 const EncounterPage = ({
     storage,
     wildPokemon,
     activePokemon,
-    setIsEncounter,
-    setActivePokemon,
-    setWildPokemon,
-    setIsDefeated,
     handleCatch,
     resetStates,
+    catchLoading,
 }) => {
     return (
         <div className="container">
             <div className="encounter">
-                <PokemonCard pokemon={activePokemon} />
-                <PokemonCard pokemon={wildPokemon} />
+                {/* ide default Cardot rendereljen, ha nincs pokemon c activepokemon */}
+                {!activePokemon && !wildPokemon ? (
+                    <>
+                        <DefaultPokemonCard />
+                        <DefaultPokemonCard />
+                    </>
+                ) : activePokemon ? (
+                    <>
+                        <PokemonCard pokemon={activePokemon} />
+                        <PokemonCard pokemon={wildPokemon} />
+                    </>
+                ) : (
+                    <>
+                        <DefaultPokemonCard />
+                        <PokemonCard pokemon={wildPokemon} />
+                    </>
+                )}
             </div>
             <div className="btn-container">
                 {wildPokemon?.hp <= 0 ? (
                     <button
+                        disabled={catchLoading}
                         className="action"
-                        value={wildPokemon.id}
-                        onClick={(e) => {
-                            handleCatch(e.currentTarget.value);
-                            e.currentTarget.disabled = true;
+                        onClick={() => {
+                            handleCatch(wildPokemon.id);
                         }}
                     >
                         CATCH
@@ -32,7 +44,7 @@ const EncounterPage = ({
                 ) : (
                     <></>
                 )}
-                <button className="action" onClick={(e) => resetStates()}>
+                <button className="action" onClick={() => resetStates()}>
                     FLEE
                 </button>
             </div>
